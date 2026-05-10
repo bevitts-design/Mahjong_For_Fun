@@ -1,0 +1,153 @@
+This HTML structure is designed as a single-page web module that can also serve as a presentation. It includes embedded CSS for layout, "Visual Instructions" for developers, and "Instructor Notes" for delivery.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Mah Jongg: Beginner’s Syllabus</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: auto; padding: 20px; background-color: #f4f4f4; }
+        section { background: white; padding: 40px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 10px solid #d32f2f; }
+        h1, h2 { color: #d32f2f; border-bottom: 2px solid #eaeaea; padding-bottom: 10px; }
+        .visual-instructions { font-style: italic; color: #555; background: #eef9ff; padding: 15px; border-left: 5px solid #007bff; margin: 20px 0; }
+        .instructor-notes { background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; margin-top: 20px; font-size: 0.95em; }
+        .card-demo { display: flex; gap: 10px; margin: 10px 0; font-weight: bold; }
+        .suit-blue { color: #0000ff; } .suit-red { color: #ff0000; } .suit-green { color: #008000; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        hr { border: 0; height: 1px; background: #eee; margin: 30px 0; }
+    </style>
+</head>
+<body>
+
+    <header style="text-align: center; padding: 40px 0;">
+        <h1>Mastering the National Mah Jongg League</h1>
+        [cite_start]<p>A Beginner’s Syllabus [cite: 1]</p>
+    </header>
+
+    <section>
+        <h2>1. Introduction to American Mah Jongg</h2>
+        <div class="visual-instructions">
+            [cite_start]UI Instruction: Display an image of the current 2026 Red NMJL card alongside a standard tile set and four racks[cite: 97, 444].
+        </div>
+        <ul>
+            [cite_start]<li>**Annual NMJL Card**: Winning hands change every year, requiring players to buy a new card to play[cite: 4, 94, 96, 162].</li>
+            [cite_start]<li>**The Set**: Uses 152 tiles, which is 8 more than the Chinese standard[cite: 97, 163].</li>
+            [cite_start]<li>**8 Jokers**: Powerful wild cards unique to this version[cite: 4, 97, 164].</li>
+            [cite_start]<li>**The Racks**: Players use physical racks to hold their tiles upright and hidden[cite: 97, 163].</li>
+            [cite_start]<li>**The Charleston**: A mandatory tile-passing ritual performed before the game begins[cite: 4, 165].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> Explain that American Mah Jongg is a game of strategy and transition[cite: 184, 510]. [cite_start]Because the hands change annually (releasing every April), the game stays fresh, and players must adapt their strategies to the new card's logic[cite: 94, 186, 203].
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Meet the Tiles</h2>
+        <div class="visual-instructions">
+            [cite_start]UI Instruction: Create a grid showing one tile from each category: Dot, Bam, Crak, Wind, Dragon, Flower, and Joker[cite: 5, 101, 172].
+        </div>
+        <ul>
+            [cite_start]<li>**Numbered Suits**: Dots (Circles), Bams (Bamboos), and Craks (Characters) numbered 1–9[cite: 5, 102, 168].</li>
+            [cite_start]<li>**The 1 Bam**: Traditionally depicted as a bird, not a bamboo stick[cite: 103, 169].</li>
+            <li>**Winds & Dragons**: North, East, South, West (Winds); [cite_start]Red, Green, and White/Soap (Dragons)[cite: 5, 104, 105, 170].</li>
+            [cite_start]<li>**The Soap**: The White Dragon tile is blank and often acts as a "zero" in year-based hands[cite: 5, 171, 278, 303].</li>
+            [cite_start]<li>**Flowers & Jokers**: 8 Flowers (used like regular tiles) and 8 Jokers (wild cards)[cite: 105, 106, 172].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> Emphasize that unlike other versions, Flowers are not bonus tiles; they are specific components needed to complete hands[cite: 105, 172]. [cite_start]Note that there are 4 copies of every suit, wind, and dragon tile[cite: 102, 170, 272].
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Building Blocks & Golden Joker Rules</h2>
+        <div class="visual-instructions">
+            [cite_start]UI Instruction: Use an infographic showing tiles grouped by size: Pair (2), Pung (3), Kong (4), Quint (5), and Sextet (6)[cite: 6, 34, 447].
+        </div>
+        <ul>
+            [cite_start]<li>**Standard Blocks**: Pungs (3 identical), Kongs (4), Quints (5), and Sextets (6)[cite: 6, 29, 34, 277].</li>
+            [cite_start]<li>**Special Blocks**: The "Year" (e.g., 2026) and "NEWS" (North, East, West, South) are made of single tiles[cite: 6, 278, 281].</li>
+            [cite_start]<li>**Joker Rule #1**: Jokers can ONLY be used in groups of 3 or more identical tiles (Pungs, Kongs, Quints, Sextets)[cite: 7, 107, 178, 288].</li>
+            [cite_start]<li>**Joker Rule #2**: Jokers can NEVER be used for Singles or Pairs[cite: 7, 107, 179, 281, 287].</li>
+            [cite_start]<li>**Joker Rule #3**: You cannot use a Joker in special "Single tile" blocks like Year or NEWS[cite: 179, 281, 287].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> The Joker rules are the most common source of errors[cite: 157]. [cite_start]Remind students that you must draw the natural tiles for any Single or Pair required by the card—Jokers cannot help there[cite: 282, 313, 319].
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Deciphering the NMJL Card</h2>
+        <div class="visual-instructions">
+            UI Instruction: Use color-coded text blocks to mimic the card. 
+            <div class="card-demo"><span class="suit-blue">Blue = 1 Suit</span> | <span class="suit-red">Red</span>/<span class="suit-blue">Blue = 2 Suits</span> | [cite_start]<span class="suit-red">Red</span>/<span class="suit-blue">Blue</span>/<span class="suit-green">Green = 3 Suits</span>[cite: 181, 182, 183, 291, 297, 300].</div>
+        </div>
+        <ul>
+            <li>**Color Coding**: 1 color = 1 suit; 2 colors = 2 suits; [cite_start]3 colors = 3 suits (You choose which suits to use)[cite: 8, 181, 182, 183, 291, 297, 300].</li>
+            <li>**X vs. C**: Hands marked 'X' are "Exposed" (can claim discards); [cite_start]'C' are "Concealed" (must draw yourself until ready to win)[cite: 8, 112, 113, 139, 140, 151].</li>
+            <li>**Dragon Correspondence**: Craks = Red Dragon; Bams = Green Dragon; [cite_start]Dots = White Dragon (Soap)[cite: 8, 303, 305].</li>
+            [cite_start]<li>**Parentheticals**: Small text in parentheses provides essential flexibility (e.g., "Any 3 Suits," "Any Opposite Dragon")[cite: 8, 68, 71, 72, 73, 193, 497].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> Explain "Pivoting"—strong players don't commit to one hand too early but stay flexible within a category based on what is discarded[cite: 116, 538, 541, 543].
+        </div>
+    </section>
+
+    <section>
+        <h2>5. The Ritual: Setup & Dealing</h2>
+        <div class="visual-instructions">
+            UI Instruction: Show a 3-step diagram: 1. Building the 2-high wall. 2. East rolling dice. 3. [cite_start]Counter-clockwise distribution[cite: 121, 122, 123, 124, 125].
+        </div>
+        <ul>
+            [cite_start]<li>**Building**: Every player builds a face-down communal wall, two tiles high, in front of their rack[cite: 9, 121, 122, 210, 211].</li>
+            [cite_start]<li>**Breaking the Wall**: East (Dealer) rolls dice; the total determines where the wall is broken[cite: 9, 123, 124, 216, 219].</li>
+            [cite_start]<li>**The Deal**: Tiles are taken 4 at a time, moving counter-clockwise[cite: 9, 125, 224].</li>
+            [cite_start]<li>**Starting Tiles**: East starts with 14 tiles; all other players start with 13[cite: 9, 119, 126, 228, 233].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> East is also known as Player 1[cite: 104, 225]. [cite_start]Good etiquette dictates not looking at your tiles until the entire deal is finished to ensure no misdeals occurred[cite: 233].
+        </div>
+    </section>
+
+    <section>
+        <h2>6. The Charleston: Passing Tiles</h2>
+        <div class="visual-instructions">
+            UI Instruction: Use a circular flowchart for the passing sequence. [cite_start]Label "Blind Pass" on the 3rd pass of each set[cite: 10, 174, 175, 421, 423].
+        </div>
+        <ul>
+            [cite_start]<li>**1st Charleston (Mandatory)**: Pass 3 tiles to the Right, then Across, then Left[cite: 10, 128, 173, 174, 175, 240].</li>
+            [cite_start]<li>**Blind Pass**: On the final Left pass (and final Right pass), you may "steal" up to 3 tiles from your incoming pass without looking at them[cite: 10, 131, 174, 176, 240, 255, 421].</li>
+            [cite_start]<li>**2nd Charleston (Optional)**: If all agree, repeat the process in reverse: Left, then Across, then Right[cite: 10, 129, 130, 175, 176, 241, 423, 424].</li>
+            [cite_start]<li>**Courtesy Pass**: A final optional swap of 1-3 tiles with the player across from you[cite: 10, 131, 177, 242, 260, 435].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> Any player can stop the second Charleston[cite: 130, 175, 423]. [cite_start]The goal here is to build your hand exponentially before play begins[cite: 127, 263].
+        </div>
+    </section>
+
+    <section>
+        <h2>7. Gameplay: Pick, Discard, & Claim</h2>
+        <div class="visual-instructions">
+            [cite_start]UI Instruction: Show an image of a player exchanging a natural tile for a Joker in an opponent's exposure[cite: 12, 108, 180, 366, 367].
+        </div>
+        <ul>
+            [cite_start]<li>**The Turn**: Pick a tile from the wall, rack it, then discard one tile while naming it aloud[cite: 11, 135, 322, 323, 325, 326].</li>
+            [cite_start]<li>**Claiming Discards**: You may claim the *most recent* discard only to complete a group for exposure (X-hands)[cite: 11, 137, 139, 140, 144, 326, 336].</li>
+            [cite_start]<li>**Joker Exchange**: On your turn, you may swap a natural tile for an identical Joker already exposed on the table[cite: 12, 108, 180, 366, 367].</li>
+            [cite_start]<li>**Winning**: Declare "Mahjong!" when your 14 tiles match a card line exactly[cite: 12, 133, 142, 146, 161, 371].</li>
+        </ul>
+        <div class="instructor-notes">
+            [cite_start]<strong>Speaker Notes:</strong> Once the next player draws and racks, the previous discard is "dead"[cite: 144, 327]. [cite_start]Remind players that you can never claim a discarded Joker[cite: 145].
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 20px; color: #777;">
+        <p>&copy; 2026 American Mah Jongg Instruction Module</p>
+    </footer>
+
+</body>
+</html>
+
+```
