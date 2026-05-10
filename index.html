@@ -1,153 +1,1074 @@
-This HTML structure is designed as a single-page web module that can also serve as a presentation. It includes embedded CSS for layout, "Visual Instructions" for developers, and "Instructor Notes" for delivery.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>American Mah Jongg: Beginner’s Syllabus</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: auto; padding: 20px; background-color: #f4f4f4; }
-        section { background: white; padding: 40px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 10px solid #d32f2f; }
-        h1, h2 { color: #d32f2f; border-bottom: 2px solid #eaeaea; padding-bottom: 10px; }
-        .visual-instructions { font-style: italic; color: #555; background: #eef9ff; padding: 15px; border-left: 5px solid #007bff; margin: 20px 0; }
-        .instructor-notes { background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; margin-top: 20px; font-size: 0.95em; }
-        .card-demo { display: flex; gap: 10px; margin: 10px 0; font-weight: bold; }
-        .suit-blue { color: #0000ff; } .suit-red { color: #ff0000; } .suit-green { color: #008000; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        hr { border: 0; height: 1px; background: #eee; margin: 30px 0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Mah Jongg — Beginner's Syllabus</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════════
+   PALETTE — Bold Mahjong Carnival
+══════════════════════════════════════════ */
+:root {
+  --cream:      #FFF8F0;
+  --warm-white: #FFFDF9;
+  --ruby:       #D63031;
+  --jade:       #00897B;
+  --sapphire:   #1565C0;
+  --gold:       #F9A825;
+  --amber:      #FF8F00;
+  --plum:       #6A1B9A;
+  --coral:      #FF5722;
+  --teal:       #00838F;
+  --ink:        #1A1A2E;
+  --mid:        #3D3D5C;
+  --muted:      #6B6B88;
+  --border:     #E8E0D5;
+
+  --font-display: 'Fredoka One', cursive;
+  --font-body:    'Nunito', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   BACKGROUND TEXTURE
+══════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(249,168,37,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(0,137,123,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(214,48,49,0.04) 0%, transparent 60%);
+}
+
+/* ══════════════════════════════════════════
+   STICKY NAV
+══════════════════════════════════════════ */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  gap: 4px; padding: 0 16px;
+  overflow-x: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.top-nav a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 12px 10px;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.top-nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  background: var(--ink);
+  overflow: hidden;
+  padding: 72px 24px 80px;
+  text-align: center;
+}
+.hero-tiles {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; opacity: 0.06; pointer-events: none;
+  font-size: 96px; letter-spacing: -10px;
+  user-select: none; overflow: hidden;
+}
+.confetti-strip {
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg,
+    var(--ruby) 0%, var(--ruby) 14.28%,
+    var(--amber) 14.28%, var(--amber) 28.57%,
+    var(--gold) 28.57%, var(--gold) 42.85%,
+    var(--jade) 42.85%, var(--jade) 57.14%,
+    var(--sapphire) 57.14%, var(--sapphire) 71.42%,
+    var(--plum) 71.42%, var(--plum) 85.71%,
+    var(--coral) 85.71%, var(--coral) 100%
+  );
+}
+.hero-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--ruby), var(--coral));
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 7vw, 72px);
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero h1 span { color: var(--gold); }
+.hero-sub {
+  font-size: clamp(15px, 2vw, 19px);
+  color: rgba(255,255,255,0.65);
+  font-weight: 600;
+  margin-bottom: 36px;
+}
+
+/* Floating tile deco */
+.hero-tile-row {
+  display: flex; gap: 10px; justify-content: center;
+  flex-wrap: wrap; position: relative;
+}
+.h-tile {
+  background: #FFF8F0;
+  border-radius: 8px;
+  width: 52px; height: 66px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.8);
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 500;
+  border: 1px solid #d5c9b8;
+  animation: tileFloat 3s ease-in-out infinite;
+}
+.h-tile .num { font-size: 22px; font-weight: 700; line-height: 1; }
+.h-tile .lbl { font-size: 8px; opacity: 0.7; margin-top: 2px; }
+.h-tile:nth-child(1) { animation-delay: 0s;    color: #1565C0; }
+.h-tile:nth-child(2) { animation-delay: 0.3s;  color: #00897B; }
+.h-tile:nth-child(3) { animation-delay: 0.6s;  color: #C0392B; }
+.h-tile:nth-child(4) { animation-delay: 0.9s;  color: #6A1B9A; }
+.h-tile:nth-child(5) { animation-delay: 1.2s;  color: #FF8F00; }
+.h-tile.joker-tile   { background: linear-gradient(135deg, var(--ink), #2d2d4e); color: var(--gold); border-color: var(--gold); animation-delay: 1.5s; }
+
+@keyframes tileFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ══════════════════════════════════════════
+   MODULE PROGRESS STRIP
+══════════════════════════════════════════ */
+.module-strip {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  padding: 20px 24px;
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+}
+.mod-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+.mod-chip:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.mod-chip .mod-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: white;
+}
+
+/* ══════════════════════════════════════════
+   PAGE WRAPPER
+══════════════════════════════════════════ */
+.page { max-width: 960px; margin: 0 auto; padding: 40px 20px 80px; }
+
+/* ══════════════════════════════════════════
+   SECTION CARDS
+══════════════════════════════════════════ */
+.section-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  margin-bottom: 32px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid var(--border);
+  animation: slideUp 0.5s ease both;
+}
+@keyframes slideUp {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.section-card:nth-child(1) { animation-delay: 0.05s; }
+.section-card:nth-child(2) { animation-delay: 0.10s; }
+.section-card:nth-child(3) { animation-delay: 0.15s; }
+.section-card:nth-child(4) { animation-delay: 0.20s; }
+.section-card:nth-child(5) { animation-delay: 0.25s; }
+.section-card:nth-child(6) { animation-delay: 0.30s; }
+.section-card:nth-child(7) { animation-delay: 0.35s; }
+
+.section-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 20px; color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.section-header .section-emoji {
+  font-size: 28px; flex-shrink: 0;
+}
+
+.section-body { padding: 24px 28px; }
+
+/* ══════════════════════════════════════════
+   BULLET LIST
+══════════════════════════════════════════ */
+.bullet-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.bullet-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 15px; line-height: 1.6; color: var(--mid);
+}
+.bullet-list li .arrow {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; margin-top: 1px;
+  color: white;
+}
+.bullet-list li strong { color: var(--ink); font-weight: 800; }
+
+/* ══════════════════════════════════════════
+   VISUAL CALLOUT BOX
+══════════════════════════════════════════ */
+.visual-callout {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: linear-gradient(135deg, #EBF5FB, #D6EAF8);
+  border: 1px solid #AED6F1;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  color: #1a5276;
+  font-weight: 600;
+}
+.visual-callout .vc-icon {
+  font-size: 20px; flex-shrink: 0; margin-top: 1px;
+}
+
+/* ══════════════════════════════════════════
+   INSTRUCTOR NOTES
+══════════════════════════════════════════ */
+.instructor-notes {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #FEF9E7, #FDEBD0);
+  border: 1px solid #F9E79F;
+  border-left: 4px solid var(--amber);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: #7D6608;
+}
+.instructor-notes strong {
+  color: var(--amber); display: block; margin-bottom: 4px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ══════════════════════════════════════════
+   SECTION COLOR THEMES
+══════════════════════════════════════════ */
+.s1 .section-num { background: linear-gradient(135deg, var(--ruby), #e74c3c); }
+.s1 .arrow       { background: var(--ruby); }
+.s1 .section-header { background: linear-gradient(135deg, #FDF2F2, #FBEAEA); }
+
+.s2 .section-num { background: linear-gradient(135deg, var(--sapphire), #2980b9); }
+.s2 .arrow       { background: var(--sapphire); }
+.s2 .section-header { background: linear-gradient(135deg, #EBF5FB, #D6EAF8); }
+
+.s3 .section-num { background: linear-gradient(135deg, var(--plum), #8e24aa); }
+.s3 .arrow       { background: var(--plum); }
+.s3 .section-header { background: linear-gradient(135deg, #F3E5F5, #E1BEE7); }
+
+.s4 .section-num { background: linear-gradient(135deg, var(--jade), #00acc1); }
+.s4 .arrow       { background: var(--jade); }
+.s4 .section-header { background: linear-gradient(135deg, #E0F2F1, #B2DFDB); }
+
+.s5 .section-num { background: linear-gradient(135deg, var(--amber), var(--gold)); }
+.s5 .arrow       { background: var(--amber); }
+.s5 .section-header { background: linear-gradient(135deg, #FFF8E1, #FFECB3); }
+
+.s6 .section-num { background: linear-gradient(135deg, var(--coral), #ff7043); }
+.s6 .arrow       { background: var(--coral); }
+.s6 .section-header { background: linear-gradient(135deg, #FBE9E7, #FFCCBC); }
+
+.s7 .section-num { background: linear-gradient(135deg, var(--teal), var(--jade)); }
+.s7 .arrow       { background: var(--teal); }
+.s7 .section-header { background: linear-gradient(135deg, #E0F7FA, #B2EBF2); }
+
+/* ══════════════════════════════════════════
+   TILE COMPONENT
+══════════════════════════════════════════ */
+.tile-showcase {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin: 18px 0;
+}
+.tile {
+  background: white;
+  border-radius: 8px;
+  width: 56px; height: 70px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  border: 1px solid #d5c9b8;
+  font-family: var(--font-mono);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+.tile:hover { transform: translateY(-4px) rotate(-2deg); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.tile .t-num { font-size: 24px; font-weight: 700; line-height: 1; }
+.tile .t-lbl { font-size: 8px; margin-top: 3px; opacity: 0.7; font-weight: 500; }
+.tile.dots   .t-num { color: #1565C0; }
+.tile.bams   .t-num { color: #00897B; }
+.tile.craks  .t-num { color: #C0392B; }
+.tile.wind   { background: #EEF2F7; }
+.tile.wind   .t-num { color: #1A1A2E; font-size: 16px; }
+.tile.d-red  { background: #FDE8E8; }
+.tile.d-red  .t-num { color: #C0392B; font-size: 13px; }
+.tile.d-green { background: #E8F5E9; }
+.tile.d-green .t-num { color: #2E7D32; font-size: 13px; }
+.tile.d-white { background: #F5F5F5; border: 2px dashed #aaa; }
+.tile.d-white .t-num { color: #666; font-size: 13px; }
+.tile.flower  { background: linear-gradient(135deg, #FFF9E6, #FCE8C8); }
+.tile.flower  .t-num { color: #8B6914; font-size: 20px; }
+.tile.joker   { background: linear-gradient(135deg, #1A1A2E, #2D2D4E); border-color: var(--gold); }
+.tile.joker   .t-num { color: var(--gold); font-size: 20px; }
+.tile.joker   .t-lbl { color: rgba(249,168,37,0.7); }
+
+.tile-group-label {
+  text-align: center; font-size: 11px; font-weight: 800;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════
+   BUILDING BLOCKS GRID
+══════════════════════════════════════════ */
+.blocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px; margin: 16px 0;
+}
+.block-card {
+  border-radius: 10px; padding: 14px 12px; text-align: center;
+  border: 2px solid transparent;
+  transition: transform 0.2s;
+}
+.block-card:hover { transform: scale(1.03); }
+.block-card .b-name {
+  font-family: var(--font-display); font-size: 16px; margin-bottom: 4px;
+}
+.block-card .b-count {
+  font-family: var(--font-display); font-size: 28px; line-height: 1;
+  margin-bottom: 4px;
+}
+.block-card .b-rule {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; opacity: 0.75;
+}
+.block-ok   { background: #F0FBF5; border-color: #A3D9B7; color: #1B6B3A; }
+.block-no   { background: #FDF0F0; border-color: #F5AAAA; color: #922B21; }
+
+/* Joker rules boxes */
+.joker-rules { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+.jrule {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px; border-radius: 10px;
+  font-size: 14px; font-weight: 600; line-height: 1.5;
+}
+.jrule-icon { font-size: 22px; flex-shrink: 0; }
+.jrule.ok   { background: #EBF9F0; border: 1.5px solid #A9DFBF; color: #1E8449; }
+.jrule.no   { background: #FDEDEC; border: 1.5px solid #F5B7B1; color: #922B21; }
+
+/* ══════════════════════════════════════════
+   CARD COLOR DEMO
+══════════════════════════════════════════ */
+.card-demo-strip {
+  display: flex; flex-direction: column; gap: 8px; margin: 16px 0;
+}
+.card-demo-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-radius: 8px; border: 1.5px solid var(--border);
+  background: white;
+}
+.card-demo-row .color-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+}
+.cd-tiles { display: flex; gap: 4px; font-family: var(--font-mono); font-weight: 700; font-size: 15px; }
+.cd-label { font-size: 13px; font-weight: 700; color: var(--mid); margin-left: auto; }
+
+.xc-row { display: flex; gap: 10px; margin: 16px 0; }
+.xc-box {
+  flex: 1; padding: 14px; border-radius: 10px; text-align: center;
+}
+.xc-box .xc-badge {
+  display: inline-block; width: 36px; height: 36px; border-radius: 8px;
+  font-family: var(--font-display); font-size: 20px; line-height: 36px;
+  color: white; margin-bottom: 8px;
+}
+.xc-box h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+.xc-box p  { font-size: 12.5px; font-weight: 600; }
+.xc-x { background: #EBF9F0; border: 1.5px solid #A9DFBF; color: #1E8449; }
+.xc-x .xc-badge { background: #1E8449; }
+.xc-c { background: #EBF3FF; border: 1.5px solid #AED6F1; color: #1565C0; }
+.xc-c .xc-badge { background: #1565C0; }
+
+/* ══════════════════════════════════════════
+   CHARLESTON DIAGRAM
+══════════════════════════════════════════ */
+.charleston-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0;
+}
+.ch-card {
+  border-radius: 10px; padding: 14px 16px;
+  border: 2px solid;
+}
+.ch-card h4 {
+  font-family: var(--font-display); font-size: 16px;
+  margin-bottom: 10px;
+}
+.ch-steps { display: flex; flex-direction: column; gap: 6px; }
+.ch-step {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600;
+}
+.ch-step .ch-dir {
+  font-size: 18px; font-weight: 800; width: 28px; text-align: center;
+}
+.ch-mandatory { background: #FFF8E1; border-color: var(--gold); color: #7D6608; }
+.ch-optional  { background: #FBE9E7; border-color: var(--coral); color: #922B21; }
+.ch-courtesy  { background: #F3E5F5; border-color: var(--plum); color: #6A1B9A; }
+.ch-blind     { background: #E8F8F5; border-color: var(--jade); color: #00695C; }
+
+/* ══════════════════════════════════════════
+   GAMEPLAY STEPS
+══════════════════════════════════════════ */
+.flow-strip {
+  display: flex; gap: 0; margin: 16px 0; overflow: hidden; border-radius: 12px;
+  border: 1.5px solid var(--border);
+}
+.flow-step {
+  flex: 1; padding: 18px 12px; text-align: center;
+  background: white; position: relative;
+}
+.flow-step + .flow-step::before {
+  content: '▶';
+  position: absolute; left: -10px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-size: 14px; z-index: 1;
+}
+.flow-step:nth-child(1) .fs-num { background: var(--teal); }
+.flow-step:nth-child(2) .fs-num { background: var(--sapphire); }
+.flow-step:nth-child(3) .fs-num { background: var(--coral); }
+.flow-step:nth-child(4) .fs-num { background: var(--jade); }
+.fs-num {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 16px; color: white;
+  margin: 0 auto 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+.fs-title { font-family: var(--font-display); font-size: 15px; color: var(--ink); margin-bottom: 4px; }
+.fs-desc  { font-size: 11.5px; color: var(--muted); font-weight: 600; line-height: 1.4; }
+
+/* ══════════════════════════════════════════
+   DRAGON PAIRINGS
+══════════════════════════════════════════ */
+.dragon-pairs {
+  display: flex; gap: 10px; margin: 14px 0; flex-wrap: wrap;
+}
+.dp-card {
+  flex: 1; min-width: 140px; padding: 12px; border-radius: 10px;
+  text-align: center; border: 2px solid;
+  font-size: 13px; font-weight: 700;
+}
+.dp-card .dp-arrow { font-size: 18px; margin: 4px 0; }
+.dp-red   { background: #FDE8E8; border-color: #E57373; color: #C0392B; }
+.dp-green { background: #E8F5E9; border-color: #81C784; color: #2E7D32; }
+.dp-white { background: #F5F5F5; border-color: #BDBDBD; color: #555; }
+
+/* ══════════════════════════════════════════
+   WINNING PANEL
+══════════════════════════════════════════ */
+.mahjong-call {
+  text-align: center;
+  background: linear-gradient(135deg, #1A1A2E, #2D2D4E);
+  border-radius: 12px; padding: 24px; margin: 16px 0;
+  color: white;
+}
+.mahjong-call .mj-label {
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 8px;
+}
+.mahjong-call .mj-shout {
+  font-family: var(--font-display); font-size: clamp(32px,5vw,52px);
+  color: var(--gold); margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(249,168,37,0.5);
+}
+.mahjong-call .mj-sub {
+  font-size: 14px; color: rgba(255,255,255,0.65); font-weight: 600;
+}
+
+/* ══════════════════════════════════════════
+   SETUP STEPS
+══════════════════════════════════════════ */
+.setup-steps { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+.setup-step {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 16px; background: white;
+  border-radius: 10px; border: 1.5px solid var(--border);
+  transition: transform 0.2s;
+}
+.setup-step:hover { transform: translateX(4px); }
+.setup-step .sn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 16px; flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(255,143,0,0.35);
+}
+.setup-step p { font-size: 14px; font-weight: 600; color: var(--mid); }
+.setup-step strong { color: var(--ink); }
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.5);
+  text-align: center; padding: 32px 20px;
+  font-size: 13px; font-weight: 600;
+}
+footer .f-tiles { font-size: 24px; margin-bottom: 8px; letter-spacing: 4px; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .charleston-grid { grid-template-columns: 1fr; }
+  .flow-strip { flex-direction: column; }
+  .flow-step + .flow-step::before { content: '▼'; left: 50%; top: -10px; transform: translateX(-50%); }
+  .xc-row { flex-direction: column; }
+}
+</style>
 </head>
 <body>
 
-    <header style="text-align: center; padding: 40px 0;">
-        <h1>Mastering the National Mah Jongg League</h1>
-        [cite_start]<p>A Beginner’s Syllabus [cite: 1]</p>
-    </header>
+<!-- STICKY NAV -->
+<nav class="top-nav">
+  <a href="#s1">1 · Intro</a>
+  <a href="#s2">2 · Tiles</a>
+  <a href="#s3">3 · Blocks</a>
+  <a href="#s4">4 · Card</a>
+  <a href="#s5">5 · Setup</a>
+  <a href="#s6">6 · Charleston</a>
+  <a href="#s7">7 · Gameplay</a>
+</nav>
 
-    <section>
-        <h2>1. Introduction to American Mah Jongg</h2>
-        <div class="visual-instructions">
-            [cite_start]UI Instruction: Display an image of the current 2026 Red NMJL card alongside a standard tile set and four racks[cite: 97, 444].
-        </div>
-        <ul>
-            [cite_start]<li>**Annual NMJL Card**: Winning hands change every year, requiring players to buy a new card to play[cite: 4, 94, 96, 162].</li>
-            [cite_start]<li>**The Set**: Uses 152 tiles, which is 8 more than the Chinese standard[cite: 97, 163].</li>
-            [cite_start]<li>**8 Jokers**: Powerful wild cards unique to this version[cite: 4, 97, 164].</li>
-            [cite_start]<li>**The Racks**: Players use physical racks to hold their tiles upright and hidden[cite: 97, 163].</li>
-            [cite_start]<li>**The Charleston**: A mandatory tile-passing ritual performed before the game begins[cite: 4, 165].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> Explain that American Mah Jongg is a game of strategy and transition[cite: 184, 510]. [cite_start]Because the hands change annually (releasing every April), the game stays fresh, and players must adapt their strategies to the new card's logic[cite: 94, 186, 203].
-        </div>
-    </section>
+<!-- HERO -->
+<div class="hero">
+  <div class="confetti-strip"></div>
+  <div class="hero-tiles">🀄🀅🀆🀇🀈🀉🀊🀋🀌🀍🀎🀏</div>
+  <div class="hero-badge">🀄 Beginner's Syllabus · 7 Modules</div>
+  <h1>Mastering the<br><span>National Mah Jongg</span><br>League</h1>
+  <p class="hero-sub">Everything you need to go from zero to "Mahjong!" in one session</p>
+  <div class="hero-tile-row">
+    <div class="h-tile"><span class="num">5</span><span class="lbl">DOT</span></div>
+    <div class="h-tile"><span class="num">🐦</span><span class="lbl">1 BAM</span></div>
+    <div class="h-tile"><span class="num">7</span><span class="lbl">CRAK</span></div>
+    <div class="h-tile"><span class="num">E</span><span class="lbl">EAST</span></div>
+    <div class="h-tile"><span class="num">🌸</span><span class="lbl">FLWR</span></div>
+    <div class="h-tile joker-tile"><span class="num">★</span><span class="lbl">JKRR</span></div>
+  </div>
+</div>
 
-    <section>
-        <h2>2. Meet the Tiles</h2>
-        <div class="visual-instructions">
-            [cite_start]UI Instruction: Create a grid showing one tile from each category: Dot, Bam, Crak, Wind, Dragon, Flower, and Joker[cite: 5, 101, 172].
-        </div>
-        <ul>
-            [cite_start]<li>**Numbered Suits**: Dots (Circles), Bams (Bamboos), and Craks (Characters) numbered 1–9[cite: 5, 102, 168].</li>
-            [cite_start]<li>**The 1 Bam**: Traditionally depicted as a bird, not a bamboo stick[cite: 103, 169].</li>
-            <li>**Winds & Dragons**: North, East, South, West (Winds); [cite_start]Red, Green, and White/Soap (Dragons)[cite: 5, 104, 105, 170].</li>
-            [cite_start]<li>**The Soap**: The White Dragon tile is blank and often acts as a "zero" in year-based hands[cite: 5, 171, 278, 303].</li>
-            [cite_start]<li>**Flowers & Jokers**: 8 Flowers (used like regular tiles) and 8 Jokers (wild cards)[cite: 105, 106, 172].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> Emphasize that unlike other versions, Flowers are not bonus tiles; they are specific components needed to complete hands[cite: 105, 172]. [cite_start]Note that there are 4 copies of every suit, wind, and dragon tile[cite: 102, 170, 272].
-        </div>
-    </section>
+<!-- MODULE CHIPS -->
+<div class="module-strip">
+  <a class="mod-chip" href="#s1" style="background:#FDF2F2;border-color:#F5AAAA;color:#922B21;">
+    <span class="mod-num" style="background:var(--ruby);">1</span> Introduction
+  </a>
+  <a class="mod-chip" href="#s2" style="background:#EBF3FF;border-color:#AED6F1;color:#1565C0;">
+    <span class="mod-num" style="background:var(--sapphire);">2</span> The Tiles
+  </a>
+  <a class="mod-chip" href="#s3" style="background:#F3E5F5;border-color:#CE93D8;color:#6A1B9A;">
+    <span class="mod-num" style="background:var(--plum);">3</span> Blocks & Jokers
+  </a>
+  <a class="mod-chip" href="#s4" style="background:#E0F2F1;border-color:#80CBC4;color:#00695C;">
+    <span class="mod-num" style="background:var(--jade);">4</span> The Card
+  </a>
+  <a class="mod-chip" href="#s5" style="background:#FFF8E1;border-color:#FFD54F;color:#7D6608;">
+    <span class="mod-num" style="background:var(--amber);">5</span> Setup
+  </a>
+  <a class="mod-chip" href="#s6" style="background:#FBE9E7;border-color:#FFAB91;color:#BF360C;">
+    <span class="mod-num" style="background:var(--coral);">6</span> Charleston
+  </a>
+  <a class="mod-chip" href="#s7" style="background:#E0F7FA;border-color:#80DEEA;color:#006064;">
+    <span class="mod-num" style="background:var(--teal);">7</span> Gameplay
+  </a>
+</div>
 
-    <section>
-        <h2>3. Building Blocks & Golden Joker Rules</h2>
-        <div class="visual-instructions">
-            [cite_start]UI Instruction: Use an infographic showing tiles grouped by size: Pair (2), Pung (3), Kong (4), Quint (5), and Sextet (6)[cite: 6, 34, 447].
-        </div>
-        <ul>
-            [cite_start]<li>**Standard Blocks**: Pungs (3 identical), Kongs (4), Quints (5), and Sextets (6)[cite: 6, 29, 34, 277].</li>
-            [cite_start]<li>**Special Blocks**: The "Year" (e.g., 2026) and "NEWS" (North, East, West, South) are made of single tiles[cite: 6, 278, 281].</li>
-            [cite_start]<li>**Joker Rule #1**: Jokers can ONLY be used in groups of 3 or more identical tiles (Pungs, Kongs, Quints, Sextets)[cite: 7, 107, 178, 288].</li>
-            [cite_start]<li>**Joker Rule #2**: Jokers can NEVER be used for Singles or Pairs[cite: 7, 107, 179, 281, 287].</li>
-            [cite_start]<li>**Joker Rule #3**: You cannot use a Joker in special "Single tile" blocks like Year or NEWS[cite: 179, 281, 287].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> The Joker rules are the most common source of errors[cite: 157]. [cite_start]Remind students that you must draw the natural tiles for any Single or Pair required by the card—Jokers cannot help there[cite: 282, 313, 319].
-        </div>
-    </section>
+<div class="page">
 
-    <section>
-        <h2>4. Deciphering the NMJL Card</h2>
-        <div class="visual-instructions">
-            UI Instruction: Use color-coded text blocks to mimic the card. 
-            <div class="card-demo"><span class="suit-blue">Blue = 1 Suit</span> | <span class="suit-red">Red</span>/<span class="suit-blue">Blue = 2 Suits</span> | [cite_start]<span class="suit-red">Red</span>/<span class="suit-blue">Blue</span>/<span class="suit-green">Green = 3 Suits</span>[cite: 181, 182, 183, 291, 297, 300].</div>
-        </div>
-        <ul>
-            <li>**Color Coding**: 1 color = 1 suit; 2 colors = 2 suits; [cite_start]3 colors = 3 suits (You choose which suits to use)[cite: 8, 181, 182, 183, 291, 297, 300].</li>
-            <li>**X vs. C**: Hands marked 'X' are "Exposed" (can claim discards); [cite_start]'C' are "Concealed" (must draw yourself until ready to win)[cite: 8, 112, 113, 139, 140, 151].</li>
-            <li>**Dragon Correspondence**: Craks = Red Dragon; Bams = Green Dragon; [cite_start]Dots = White Dragon (Soap)[cite: 8, 303, 305].</li>
-            [cite_start]<li>**Parentheticals**: Small text in parentheses provides essential flexibility (e.g., "Any 3 Suits," "Any Opposite Dragon")[cite: 8, 68, 71, 72, 73, 193, 497].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> Explain "Pivoting"—strong players don't commit to one hand too early but stay flexible within a category based on what is discarded[cite: 116, 538, 541, 543].
-        </div>
-    </section>
+  <!-- ══ SECTION 1: INTRODUCTION ══ -->
+  <div class="section-card s1" id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-emoji">🀄</div>
+      <h2>Introduction to American Mah Jongg</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">🖼️</span>
+        <span><strong>Visual Cue:</strong> Display the current 2026 Red NMJL card alongside a standard tile set and four racks to show students what a full setup looks like.</span>
+      </div>
+      <ul class="bullet-list">
+        <li><span class="arrow" style="background:var(--ruby);">▸</span><div><strong>Annual NMJL Card</strong> — Winning hands change every year. Players must buy a new card to play. Released every April.</div></li>
+        <li><span class="arrow" style="background:var(--ruby);">▸</span><div><strong>152 Tiles</strong> — That's 8 more than the Chinese standard. The extras are the Jokers.</div></li>
+        <li><span class="arrow" style="background:var(--ruby);">▸</span><div><strong>8 Jokers</strong> — Powerful wild cards unique to this version of the game.</div></li>
+        <li><span class="arrow" style="background:var(--ruby);">▸</span><div><strong>The Racks</strong> — Players use physical racks to hold tiles upright and hidden from opponents.</div></li>
+        <li><span class="arrow" style="background:var(--ruby);">▸</span><div><strong>The Charleston</strong> — A mandatory tile-passing ritual performed before the game begins.</div></li>
+      </ul>
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        American Mah Jongg is a game of strategy and transition. Because hands change annually, the game stays fresh and players must adapt every year. This is also a great point to mention that players from Chinese, Japanese, or Hong Kong Mahjong are essentially learning a new game — the structure, winning hands, and Joker mechanics are all unique to the American version.
+      </div>
+    </div>
+  </div>
 
-    <section>
-        <h2>5. The Ritual: Setup & Dealing</h2>
-        <div class="visual-instructions">
-            UI Instruction: Show a 3-step diagram: 1. Building the 2-high wall. 2. East rolling dice. 3. [cite_start]Counter-clockwise distribution[cite: 121, 122, 123, 124, 125].
-        </div>
-        <ul>
-            [cite_start]<li>**Building**: Every player builds a face-down communal wall, two tiles high, in front of their rack[cite: 9, 121, 122, 210, 211].</li>
-            [cite_start]<li>**Breaking the Wall**: East (Dealer) rolls dice; the total determines where the wall is broken[cite: 9, 123, 124, 216, 219].</li>
-            [cite_start]<li>**The Deal**: Tiles are taken 4 at a time, moving counter-clockwise[cite: 9, 125, 224].</li>
-            [cite_start]<li>**Starting Tiles**: East starts with 14 tiles; all other players start with 13[cite: 9, 119, 126, 228, 233].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> East is also known as Player 1[cite: 104, 225]. [cite_start]Good etiquette dictates not looking at your tiles until the entire deal is finished to ensure no misdeals occurred[cite: 233].
-        </div>
-    </section>
+  <!-- ══ SECTION 2: TILES ══ -->
+  <div class="section-card s2" id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-emoji">🎴</div>
+      <h2>Meet the Tiles</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">🖼️</span>
+        <span><strong>Visual Cue:</strong> Show one representative tile from each category. Students should physically touch and sort their tiles by category as you introduce each group.</span>
+      </div>
 
-    <section>
-        <h2>6. The Charleston: Passing Tiles</h2>
-        <div class="visual-instructions">
-            UI Instruction: Use a circular flowchart for the passing sequence. [cite_start]Label "Blind Pass" on the 3rd pass of each set[cite: 10, 174, 175, 421, 423].
+      <div class="tile-showcase">
+        <div style="text-align:center;">
+          <div class="tile dots"><span class="t-num">5</span><span class="t-lbl">DOT</span></div>
+          <div class="tile-group-label" style="color:#1565C0;">Dots</div>
         </div>
-        <ul>
-            [cite_start]<li>**1st Charleston (Mandatory)**: Pass 3 tiles to the Right, then Across, then Left[cite: 10, 128, 173, 174, 175, 240].</li>
-            [cite_start]<li>**Blind Pass**: On the final Left pass (and final Right pass), you may "steal" up to 3 tiles from your incoming pass without looking at them[cite: 10, 131, 174, 176, 240, 255, 421].</li>
-            [cite_start]<li>**2nd Charleston (Optional)**: If all agree, repeat the process in reverse: Left, then Across, then Right[cite: 10, 129, 130, 175, 176, 241, 423, 424].</li>
-            [cite_start]<li>**Courtesy Pass**: A final optional swap of 1-3 tiles with the player across from you[cite: 10, 131, 177, 242, 260, 435].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> Any player can stop the second Charleston[cite: 130, 175, 423]. [cite_start]The goal here is to build your hand exponentially before play begins[cite: 127, 263].
+        <div style="text-align:center;">
+          <div class="tile bams"><span class="t-num">🐦</span><span class="t-lbl">1 BAM</span></div>
+          <div class="tile-group-label" style="color:#00897B;">Bams</div>
         </div>
-    </section>
+        <div style="text-align:center;">
+          <div class="tile craks"><span class="t-num">7</span><span class="t-lbl">CRAK</span></div>
+          <div class="tile-group-label" style="color:#C0392B;">Craks</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="tile wind"><span class="t-num">N</span><span class="t-lbl">NORTH</span></div>
+          <div class="tile-group-label">Winds</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="tile d-red"><span class="t-num">RED</span><span class="t-lbl">DRAG</span></div>
+          <div class="tile-group-label" style="color:#C0392B;">Red Dragon</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="tile d-green"><span class="t-num">GRN</span><span class="t-lbl">DRAG</span></div>
+          <div class="tile-group-label" style="color:#2E7D32;">Green Dragon</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="tile d-white"><span class="t-num">SOAP</span><span class="t-lbl">= 0</span></div>
+          <div class="tile-group-label" style="color:#666;">White/Soap</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="tile flower"><span class="t-num">🌸</span><span class="t-lbl">FLWR</span></div>
+          <div class="tile-group-label" style="color:#8B6914;">Flower</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="tile joker"><span class="t-num">★</span><span class="t-lbl">JKRR</span></div>
+          <div class="tile-group-label" style="color:var(--gold);">Joker</div>
+        </div>
+      </div>
 
-    <section>
-        <h2>7. Gameplay: Pick, Discard, & Claim</h2>
-        <div class="visual-instructions">
-            [cite_start]UI Instruction: Show an image of a player exchanging a natural tile for a Joker in an opponent's exposure[cite: 12, 108, 180, 366, 367].
-        </div>
-        <ul>
-            [cite_start]<li>**The Turn**: Pick a tile from the wall, rack it, then discard one tile while naming it aloud[cite: 11, 135, 322, 323, 325, 326].</li>
-            [cite_start]<li>**Claiming Discards**: You may claim the *most recent* discard only to complete a group for exposure (X-hands)[cite: 11, 137, 139, 140, 144, 326, 336].</li>
-            [cite_start]<li>**Joker Exchange**: On your turn, you may swap a natural tile for an identical Joker already exposed on the table[cite: 12, 108, 180, 366, 367].</li>
-            [cite_start]<li>**Winning**: Declare "Mahjong!" when your 14 tiles match a card line exactly[cite: 12, 133, 142, 146, 161, 371].</li>
-        </ul>
-        <div class="instructor-notes">
-            [cite_start]<strong>Speaker Notes:</strong> Once the next player draws and racks, the previous discard is "dead"[cite: 144, 327]. [cite_start]Remind players that you can never claim a discarded Joker[cite: 145].
-        </div>
-    </section>
+      <ul class="bullet-list">
+        <li><span class="arrow" style="background:var(--sapphire);">▸</span><div><strong>Numbered Suits</strong> — Dots, Bams, and Craks are numbered 1–9. Four copies of every tile.</div></li>
+        <li><span class="arrow" style="background:var(--sapphire);">▸</span><div><strong>The 1 Bam</strong> — Depicted as a bird, not a bamboo stick. Classic beginner surprise!</div></li>
+        <li><span class="arrow" style="background:var(--sapphire);">▸</span><div><strong>Winds & Dragons</strong> — N, E, S, W (Winds); Red, Green, and White/Soap (Dragons).</div></li>
+        <li><span class="arrow" style="background:var(--sapphire);">▸</span><div><strong>The Soap</strong> — The White Dragon is blank and acts as "zero" in year-based hands.</div></li>
+        <li><span class="arrow" style="background:var(--sapphire);">▸</span><div><strong>Flowers</strong> — 8 identical tiles used like regular tiles in hands, not as bonus tiles.</div></li>
+      </ul>
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        Emphasize that unlike other Mahjong versions, Flowers are NOT bonus tiles — they are specific components needed to complete certain hands on the card. Also stress: there are exactly 4 copies of every suit, wind, and dragon tile. This matters when tracking Joker substitutions.
+      </div>
+    </div>
+  </div>
 
-    <footer style="text-align: center; padding: 20px; color: #777;">
-        <p>&copy; 2026 American Mah Jongg Instruction Module</p>
-    </footer>
+  <!-- ══ SECTION 3: BUILDING BLOCKS ══ -->
+  <div class="section-card s3" id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-emoji">🧱</div>
+      <h2>Building Blocks & Golden Joker Rules</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">📊</span>
+        <span><strong>Visual Cue:</strong> Lay physical tiles on the table in groups of 1, 2, 3, 4, 5, and 6 to demonstrate each block type as you introduce them.</span>
+      </div>
+
+      <div class="blocks-grid">
+        <div class="block-card block-no">
+          <div class="b-name">Single</div>
+          <div class="b-count">×1</div>
+          <div class="b-rule">❌ No Jokers</div>
+        </div>
+        <div class="block-card block-no">
+          <div class="b-name">Pair</div>
+          <div class="b-count">×2</div>
+          <div class="b-rule">❌ No Jokers</div>
+        </div>
+        <div class="block-card block-ok">
+          <div class="b-name">Pung</div>
+          <div class="b-count">×3</div>
+          <div class="b-rule">✅ Jokers OK</div>
+        </div>
+        <div class="block-card block-ok">
+          <div class="b-name">Kong</div>
+          <div class="b-count">×4</div>
+          <div class="b-rule">✅ Jokers OK</div>
+        </div>
+        <div class="block-card block-ok">
+          <div class="b-name">Quint</div>
+          <div class="b-count">×5</div>
+          <div class="b-rule">✅ Jokers OK</div>
+        </div>
+        <div class="block-card block-ok">
+          <div class="b-name">Sextet</div>
+          <div class="b-count">×6</div>
+          <div class="b-rule">✅ Jokers OK</div>
+        </div>
+      </div>
+
+      <div class="joker-rules">
+        <div class="jrule ok">
+          <span class="jrule-icon">✅</span>
+          <div><strong>Jokers CAN substitute</strong> in groups of 3 or more identical tiles — Pungs, Kongs, Quints, and Sextets.</div>
+        </div>
+        <div class="jrule no">
+          <span class="jrule-icon">❌</span>
+          <div><strong>Jokers CANNOT be used</strong> in Singles, Pairs, NEWS (N+E+W+S), or Year hands (e.g., 2-0-2-6). These are single-tile groups.</div>
+        </div>
+        <div class="jrule no">
+          <span class="jrule-icon">🔄</span>
+          <div style="color:var(--teal);"><strong>Swap Rule:</strong> If an opponent exposes a group containing a Joker, you may swap the real tile for that Joker on your turn and keep it.</div>
+        </div>
+      </div>
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        The Joker rules are the #1 source of beginner errors. Drill this repeatedly: you must draw natural tiles for any Single or Pair on the card — Jokers cannot help there. Also introduce the Joker Swap concept here — it's a powerful move students should look for every turn.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: THE CARD ══ -->
+  <div class="section-card s4" id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-emoji">📋</div>
+      <h2>Deciphering the NMJL Card</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">🎨</span>
+        <span><strong>Visual Cue:</strong> Hold up the actual NMJL card. Point to a 1-color hand, a 2-color hand, and a 3-color hand to anchor the color-coding system.</span>
+      </div>
+
+      <p style="font-weight:700;font-size:14px;color:var(--ink);margin-bottom:10px;">Colors tell you HOW MANY suits — not which ones. You choose.</p>
+
+      <div class="card-demo-strip">
+        <div class="card-demo-row">
+          <div class="color-dot" style="background:#1565C0;"></div>
+          <div class="cd-tiles">
+            <span style="color:#1565C0;">111</span>
+            <span style="color:#1565C0;">333</span>
+            <span style="color:#1565C0;">555</span>
+          </div>
+          <div class="cd-label">1 color = all tiles from the <strong>same suit</strong></div>
+        </div>
+        <div class="card-demo-row">
+          <div class="color-dot" style="background:#C0392B;"></div>
+          <div class="color-dot" style="background:#1565C0;"></div>
+          <div class="cd-tiles">
+            <span style="color:#C0392B;">111</span>
+            <span style="color:#1565C0;">333</span>
+            <span style="color:#C0392B;">555</span>
+          </div>
+          <div class="cd-label">2 colors = <strong>two different suits</strong> required</div>
+        </div>
+        <div class="card-demo-row">
+          <div class="color-dot" style="background:#C0392B;"></div>
+          <div class="color-dot" style="background:#1565C0;"></div>
+          <div class="color-dot" style="background:#2E7D32;"></div>
+          <div class="cd-tiles">
+            <span style="color:#C0392B;">111</span>
+            <span style="color:#1565C0;">222</span>
+            <span style="color:#2E7D32;">333</span>
+          </div>
+          <div class="cd-label">3 colors = <strong>all three suits</strong> used</div>
+        </div>
+      </div>
+
+      <div class="xc-row">
+        <div class="xc-box xc-x">
+          <div class="xc-badge">X</div>
+          <h4>Exposed</h4>
+          <p>You MAY call a discard to complete this group. Show it on top of your rack.</p>
+        </div>
+        <div class="xc-box xc-c">
+          <div class="xc-badge">C</div>
+          <h4>Concealed</h4>
+          <p>Draw only — no calling discards to build this group. Hidden until Mahjong.</p>
+        </div>
+      </div>
+
+      <p style="font-weight:700;font-size:14px;color:var(--ink);margin:14px 0 8px;">Dragon–Suit Pairings</p>
+      <div class="dragon-pairs">
+        <div class="dp-card dp-red">
+          <div>Craks</div>
+          <div class="dp-arrow">↔</div>
+          <div>Red Dragon</div>
+        </div>
+        <div class="dp-card dp-green">
+          <div>Bams</div>
+          <div class="dp-arrow">↔</div>
+          <div>Green Dragon</div>
+        </div>
+        <div class="dp-card dp-white">
+          <div>Dots</div>
+          <div class="dp-arrow">↔</div>
+          <div>White Dragon (Soap)</div>
+        </div>
+      </div>
+
+      <ul class="bullet-list" style="margin-top:12px;">
+        <li><span class="arrow" style="background:var(--jade);">▸</span><div><strong>"Any 3 Suits"</strong> — Use all three suits, one per color on the card.</div></li>
+        <li><span class="arrow" style="background:var(--jade);">▸</span><div><strong>"Any Opposite Dragon"</strong> — Use the Dragon of the suit you did NOT play in that hand.</div></li>
+        <li><span class="arrow" style="background:var(--jade);">▸</span><div><strong>"Any Like #"</strong> — Pick any number and use it consistently throughout the hand.</div></li>
+      </ul>
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        Introduce the concept of "Pivoting" here — strong players don't commit to one hand too early. They stay flexible within a category, watching what opponents discard, and shift hands as tiles become available or unavailable. This is the key habit that separates intermediate players from beginners.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: SETUP ══ -->
+  <div class="section-card s5" id="s5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-emoji">🎲</div>
+      <h2>The Ritual: Setup & Dealing</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">🗺️</span>
+        <span><strong>Visual Cue:</strong> Walk through this live at the table — build the wall, have East roll the dice, and deal one round slowly so students see the counter-clockwise flow.</span>
+      </div>
+
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="sn">1</div>
+          <p>Shuffle all 152 tiles face-down in the center of the table.</p>
+        </div>
+        <div class="setup-step">
+          <div class="sn">2</div>
+          <p><strong>Build the wall</strong> — Each player stacks tiles face-down, two layers high, along the inside of their rack edge.</p>
+        </div>
+        <div class="setup-step">
+          <div class="sn">3</div>
+          <p><strong>East (Dealer) rolls two dice.</strong> Count from the right end of East's wall to find the break point.</p>
+        </div>
+        <div class="setup-step">
+          <div class="sn">4</div>
+          <p><strong>Deal counter-clockwise</strong> — 4 tiles at a time, three full rounds, then 1 more tile each.</p>
+        </div>
+        <div class="setup-step">
+          <div class="sn">5</div>
+          <p><strong>East takes one extra tile → 14 total.</strong> All other players hold 13. East discards first to start the game.</p>
+        </div>
+      </div>
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        East is also called Player 1. Good etiquette: don't look at your tiles until the entire deal is finished — this protects against misdeals. Remind students why East starts with 14: because East discards first without drawing, immediately bringing them back to 13. The Charleston follows the deal before any gameplay begins.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 6: CHARLESTON ══ -->
+  <div class="section-card s6" id="s6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-emoji">🔄</div>
+      <h2>The Charleston: Passing Tiles</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">🔵</span>
+        <span><strong>Visual Cue:</strong> Use a simple table diagram with four seats. Draw arrows showing the direction of each pass — Right, Across, Left — reversing for the second Charleston.</span>
+      </div>
+
+      <div class="charleston-grid">
+        <div class="ch-card ch-mandatory">
+          <h4>1st Charleston — Mandatory</h4>
+          <div class="ch-steps">
+            <div class="ch-step"><span class="ch-dir">→</span> Pass 3 tiles to the RIGHT</div>
+            <div class="ch-step"><span class="ch-dir">↔</span> Pass 3 tiles ACROSS</div>
+            <div class="ch-step"><span class="ch-dir">←</span> Pass 3 tiles to the LEFT ⭐ Blind option</div>
+          </div>
+        </div>
+        <div class="ch-card ch-optional">
+          <h4>2nd Charleston — Optional</h4>
+          <div class="ch-steps">
+            <div class="ch-step"><span class="ch-dir">←</span> Pass 3 tiles to the LEFT</div>
+            <div class="ch-step"><span class="ch-dir">↔</span> Pass 3 tiles ACROSS</div>
+            <div class="ch-step"><span class="ch-dir">→</span> Pass 3 tiles to the RIGHT ⭐ Blind option</div>
+          </div>
+        </div>
+        <div class="ch-card ch-blind">
+          <h4>⭐ The Blind Pass</h4>
+          <p style="font-size:13px;font-weight:600;line-height:1.5;">On the final pass of each Charleston, you may "steal" up to 3 tiles from your incoming pass — without looking at them first. Pass them face-down sight unseen.</p>
+        </div>
+        <div class="ch-card ch-courtesy">
+          <h4>Courtesy Pass — Optional</h4>
+          <p style="font-size:13px;font-weight:600;line-height:1.5;">After both Charlestons, a final 1–3 tile swap with the player across from you. Both players must agree. Tiles pass simultaneously.</p>
+        </div>
+      </div>
+
+      <ul class="bullet-list" style="margin-top:14px;">
+        <li><span class="arrow" style="background:var(--coral);">▸</span><div><strong>All passes are simultaneous</strong> — select your 3 tiles face-down first, then everyone passes at once.</div></li>
+        <li><span class="arrow" style="background:var(--coral);">▸</span><div><strong>Any player can stop the 2nd Charleston</strong> before it begins. One "no" ends it.</div></li>
+        <li><span class="arrow" style="background:var(--coral);">▸</span><div><strong>Strategy:</strong> Keep Jokers. Pass tiles that don't fit any hand. Aim to have 2–3 possible hands after passing ends.</div></li>
+      </ul>
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        The goal of the Charleston is to build your hand exponentially before play begins — it's the most social and strategic part of the game. Stress that all passes are simultaneous: you cannot look at what you receive before sending your own tiles in the same pass. Common beginner mistake — looking first, then passing.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 7: GAMEPLAY ══ -->
+  <div class="section-card s7" id="s7">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-emoji">🎯</div>
+      <h2>Gameplay: Pick, Discard & Claim</h2>
+    </div>
+    <div class="section-body">
+      <div class="visual-callout">
+        <span class="vc-icon">🔁</span>
+        <span><strong>Visual Cue:</strong> Play through 2–3 turns live at the table. Demonstrate a Joker swap by showing an opponent's exposed group and performing the exchange.</span>
+      </div>
+
+      <div class="flow-strip">
+        <div class="flow-step">
+          <div class="fs-num">1</div>
+          <div class="fs-title">Pick</div>
+          <div class="fs-desc">Draw 1 tile from the wall. Rack it.</div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">2</div>
+          <div class="fs-title">Assess</div>
+          <div class="fs-desc">Does it complete your hand? Update your target.</div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">3</div>
+          <div class="fs-title">Discard</div>
+          <div class="fs-desc">Place 1 tile face-up. Name it aloud.</div>
+        </div>
+        <div class="flow-step">
+          <div class="fs-num">4</div>
+          <div class="fs-title">Claim?</div>
+          <div class="fs-desc">Anyone may call it to complete an X group — or win!</div>
+        </div>
+      </div>
+
+      <div class="mahjong-call">
+        <div class="mj-label">When your 14 tiles match one line on the card exactly →</div>
+        <div class="mj-shout">🀄 MAHJONG!</div>
+        <div class="mj-sub">Reveal your full hand. Other players verify against the card.</div>
+      </div>
+
+      <ul class="bullet-list">
+        <li><span class="arrow" style="background:var(--teal);">▸</span><div><strong>Play moves to the right</strong> (counter-clockwise). East discards first without drawing.</div></li>
+        <li><span class="arrow" style="background:var(--teal);">▸</span><div><strong>Claiming discards</strong> — Only to complete an <strong>X (Exposed)</strong> group. C (Concealed) groups: draw only. Exception: you may always call a discard to win, even on a concealed hand.</div></li>
+        <li><span class="arrow" style="background:var(--teal);">▸</span><div><strong>Joker Exchange</strong> — Instead of drawing, swap a real tile from your hand for a Joker in an opponent's exposed group. Keep the Joker — it's gold.</div></li>
+        <li><span class="arrow" style="background:var(--teal);">▸</span><div><strong>Dead discard</strong> — Once the next player touches the wall to draw, the previous discard is gone. Cannot be claimed.</div></li>
+        <li><span class="arrow" style="background:var(--teal);">▸</span><div><strong>Jokers cannot be discarded</strong> by choice — discard from your hand first. A discarded Joker is lost; no one may claim it.</div></li>
+        <li><span class="arrow" style="background:var(--teal);">▸</span><div><strong>Dead Hand</strong> — If you expose a wrong group, your hand is dead. You keep discarding but cannot win that round.</div></li>
+      </ul>
+
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:140px;background:#FFF8E1;border:2px solid var(--gold);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-display);font-size:28px;color:var(--amber);">25¢</div>
+          <div style="font-size:12px;font-weight:700;color:#7D6608;">Standard Hand</div>
+          <div style="font-size:11px;color:#9A7D0A;margin-top:4px;">Collect from all 3 opponents</div>
+        </div>
+        <div style="flex:1;min-width:140px;background:#FDE8E8;border:2px solid var(--ruby);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-display);font-size:28px;color:var(--ruby);">50¢</div>
+          <div style="font-size:12px;font-weight:700;color:#922B21;">Complex Hand</div>
+          <div style="font-size:11px;color:#A93226;margin-top:4px;">Harder hands, higher reward</div>
+        </div>
+        <div style="flex:1;min-width:140px;background:#F3E5F5;border:2px solid var(--plum);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-family:var(--font-display);font-size:28px;color:var(--plum);">×2</div>
+          <div style="font-size:12px;font-weight:700;color:#6A1B9A;">Concealed Win</div>
+          <div style="font-size:11px;color:#7B1FA2;margin-top:4px;">Double from all 3 opponents</div>
+        </div>
+      </div>
+
+      <div class="instructor-notes">
+        <strong>📋 Instructor Notes</strong>
+        Key reminders: once the next player draws, the last discard is "dead" — no one can call it. You can never claim a discarded Joker. Also reinforce the Joker Swap — this is a move students often forget mid-game. End the session with a slow practice round, narrating each turn aloud. The first full game is always the best teacher.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  <div class="f-tiles">🀄 🀅 🀆 🀇 🀈</div>
+  <p>&copy; 2026 American Mah Jongg Instruction Module &nbsp;·&nbsp; National Mah Jongg League Rules</p>
+</footer>
 
 </body>
 </html>
-
-```
